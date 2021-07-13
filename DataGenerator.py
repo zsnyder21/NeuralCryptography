@@ -5,36 +5,15 @@ import random
 
 
 class DataGenerator(object):
-    def __init__(self, imageSize: int, outputDirectory: str, greyScale: bool = True, dictionaryLength: int = 200):
+    def __init__(self, imageSize: int, outputDirectory: str, greyScale: bool = True, sentenceLength: int = 100, dictionaryLength: int = 200):
         if greyScale:
-            self.imageSize = (imageSize, imageSize)
+            self.imageSize = (imageSize, imageSize, 1)
         else:
             self.imageSize = (imageSize, imageSize, 3)
 
         self.outputDirectory = outputDirectory
-
+        self.sentenceLength = sentenceLength
         self.dictionaryLength = dictionaryLength
-
-        # self.codePointRanges = [
-        #     (0x0021, 0x0021),
-        #     (0x0023, 0x0026),
-        #     (0x0028, 0x007E),
-        #     (0x00A1, 0x00AC),
-        #     (0x00AE, 0x00FF),
-        #     (0x0100, 0x017F),
-        #     (0x0180, 0x024F),
-        #     (0x2C60, 0x2C7F),
-        #     (0x16A0, 0x16F0),
-        #     (0x0370, 0x0377),
-        #     (0x037A, 0x037E),
-        #     (0x0384, 0x038A),
-        #     (0x038C, 0x038C),
-        # ]
-        #
-        # self.alphabet = [
-        #     chr(code_point) for current_range in self.codePointRanges
-        #     for code_point in range(current_range[0], current_range[1] + 1)
-        # ]
 
     def generateImage(self) -> np.array:
         return np.random.randint(0, 256, self.imageSize) / 255.0
@@ -43,29 +22,60 @@ class DataGenerator(object):
         maxValue = self.dictionaryLength
         return np.eye(maxValue)[array]
 
-    def generateSentence(self, sentenceLength: int) -> np.array:
-        return np.array([np.random.randint(low=0, high=self.dictionaryLength) for _ in range(sentenceLength)]).reshape(1, -1)
+    def generateSentence(self) -> np.array:
+        return np.array([np.random.randint(low=0, high=self.dictionaryLength) for _ in range(self.sentenceLength)])
 
     def messageEncode(self, message: str) -> np.array:
-        return np.array([ord(char) for char in message]).reshape(1, -1)
+        return np.array([ord(char) for char in message])
 
     def messageDecode(self, message: np.array) -> str:
-        return "".join(chr(codePoint) for codePoint in message[0])
+        return "".join(chr(codePoint) for codePoint in message)
+
+    def generateData(self, batchSize: int = 32):
+        while True:
+            Ximage = np.zeros(shape=(batchSize, self.imageSize[0], self.imageSize[1], self.imageSize[2]))
+            Xsentence = np.zeros(shape=(batchSize, self.sentenceLength))
+            Yimage = np.zeros(shape=(batchSize, self.imageSize[0], self.imageSize[1], self.imageSize[2]))
+            Ysentence = np.zeros(shape=(batchSize, self.sentenceLength, self.dictionaryLength))
+
+            for idx in range(batchSize):
+                image = self.generateImage()
+                sentence = self.generateSentence()
+                sentenceOneHot = self.oneHotEncode(sentence)
+
+                Ximage[idx] = image
+                Xsentence[idx] = sentence
+                Yimage[idx] = image
+                Ysentence[idx] = sentenceOneHot
+
+            yield [[Ximage, Xsentence], [Yimage, Ysentence]]
 
 
 if __name__ == "__main__":
-    generator = DataGenerator(imageSize=300, greyScale=False, dictionaryLength=200, outputDirectory="Some Fake Place")
+    generator = DataGenerator(
+        imageSize=300,
+        greyScale=False,
+        sentenceLength=100,
+        dictionaryLength=200,
+        outputDirectory="Some Fake Place"
+    )
+
     # img = generator.generateImage()
 
-    sentence = generator.generateSentence(100)
-    print(sentence)
-    sentenceDecoded = generator.messageDecode(sentence)
-    print(sentenceDecoded)
-    sentenceEncoded = generator.messageEncode(sentenceDecoded)
-    print(sentenceEncoded)
+    # sentence = generator.generateSentence()
+    # print(sentence)
+    # sentenceDecoded = generator.messageDecode(sentence)
+    # print(sentenceDecoded)
+    # sentenceEncoded = generator.messageEncode(sentenceDecoded)
+    # print(sentenceEncoded)
+    #
+    # test = generator.oneHotEncode(sentence)
+    # print(test.shape)
+    # print(test[0], len(test)) #, len(test[0]))
 
-    test = generator.oneHotEncode(sentence[0])
-    print(test[0], len(test[0])) #, len(test[0]))
+    test = generator.generateData()
+
+    print(next(test))
     # fig, ax = plt.subplots(figsize=(10,10))
     # ax.imshow(img, cmap="gray")
     # plt.show()
