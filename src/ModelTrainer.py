@@ -27,19 +27,23 @@ class ModelTrainer(object):
             dictionaryLength=dictionaryLength
         )
 
-    def trainModels(self):
-        dataGenerator = self.dataGenerator.generateData()
-        model, encoder, decoder = self.modelGenerator.getModel()
+        self.model = None,
+        self.encoder = None,
+        self.decoder = None
 
-        model.fit(
+    def trainModels(self, epochs: int, steps_per_epoch: int, modelSavePath: str, verbose: int = 1):
+        dataGenerator = self.dataGenerator.generateData()
+        self.model, self.encoder, self.decoder = self.modelGenerator.getModel()
+
+        self.model.fit(
             x=dataGenerator,
-            steps_per_epoch=200,
-            epochs=512,
+            steps_per_epoch=steps_per_epoch,
+            epochs=epochs,
             callbacks=[
                 ModelCheckpoint(
-                    filepath="../data/ModelWeights/bestWeights.h5",
+                    filepath=modelSavePath,
                     monitor="loss",
-                    verbose=1,
+                    verbose=verbose,
                     save_weights_only=True,
                     save_best_only=True
                 )
@@ -48,5 +52,4 @@ class ModelTrainer(object):
 
 if __name__ == "__main__":
     trainer = ModelTrainer(greyScale=False)
-
-    trainer.trainModels()
+    trainer.trainModels(epochs=20, steps_per_epoch=100, modelSavePath="../data/ModelWeights/bestWeights_color_20_100.h5")

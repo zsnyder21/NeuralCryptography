@@ -24,10 +24,12 @@ class DataGenerator(object):
     def generateSentence(self) -> np.array:
         return np.array([np.random.randint(low=0, high=self.dictionaryLength) for _ in range(self.sentenceLength)])
 
-    def messageEncode(self, message: str) -> np.array:
+    @staticmethod
+    def messageEncode(message: str) -> np.array:
         return np.array([ord(char) for char in message])
 
-    def messageDecode(self, message: np.array) -> str:
+    @staticmethod
+    def messageDecode(message: np.array) -> str:
         return "".join(chr(codePoint) for codePoint in message)
 
     def generateData(self, batchSize: int = 32):

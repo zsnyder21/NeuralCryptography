@@ -37,7 +37,7 @@ class ModelGenerator(object):
         inputSentence = Input((self.sentenceLength, ))
         embeddedSentence = Embedding(self.dictionaryLength, 100)(inputSentence)
         embeddedSentence = Flatten()(embeddedSentence)
-        embeddedSentence = Reshape((self.imageSize[0], self.imageSize[1], 1))(embeddedSentence)
+        embeddedSentence = Reshape(target_shape=(self.imageSize[0], self.imageSize[1], 1))(embeddedSentence)
         convolvedImage = Conv2D(20, 1, activation="relu")(inputImage)
         concatenated = Concatenate(axis=-1)([embeddedSentence, convolvedImage])
         outputImage = Conv2D(3, 1, activation="relu", name="imageReconstruction")(concatenated)
