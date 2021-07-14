@@ -2,7 +2,6 @@ import tensorflow as tf
 import numpy as np
 
 from tensorflow import keras
-from DataGenerator import DataGenerator
 
 from tensorflow.keras.layers import Concatenate
 from tensorflow.keras.layers import Conv2D
@@ -16,8 +15,6 @@ from tensorflow.keras.layers import TimeDistributed
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.models import Sequential
-
-from tensorflow.keras.callbacks import ModelCheckpoint
 
 from tensorflow.keras.losses import categorical_crossentropy
 from tensorflow.keras.losses import mean_absolute_error
@@ -48,18 +45,22 @@ class ModelGenerator(object):
         # Construct the decoder model
         decoderModel = Sequential(name="sentenceReconstruction")
         decoderModel.add(Conv2D(1, 1, input_shape=self.imageSize))
-        decoderModel.add(Reshape(self.sentenceLength, 100))
+        decoderModel.add(Reshape((self.sentenceLength, 100)))
         decoderModel.add(TimeDistributed(Dense(self.dictionaryLength, activation="softmax")))
         outputSentence = decoderModel(outputImage)
 
-        # Create the encoder model
+        # Construct the encoder model
         model = Model(inputs=[inputImage, inputSentence], outputs=[outputImage, outputSentence])
         model.compile(
             optimizer="adam",
             loss=[mean_absolute_error, categorical_crossentropy],
-            metrics={"Sentence Reconstruction": categorical_accuracy}
+            metrics={"sentenceReconstruction": categorical_accuracy}
         )
 
         encoderModel = Model(inputs=[inputImage, inputSentence], outputs=[outputImage])
 
         return model, encoderModel, decoderModel
+
+
+if __name__ == "__main__":
+    pass

@@ -47,7 +47,7 @@ class DataGenerator(object):
                 Yimage[idx] = image
                 Ysentence[idx] = sentenceOneHot
 
-            yield [[Ximage, Xsentence], [Yimage, Ysentence]]
+            yield ([Ximage, Xsentence], [Yimage, Ysentence])
 
 
 if __name__ == "__main__":
