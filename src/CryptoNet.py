@@ -1,14 +1,25 @@
-from ModelGenerator import ModelGenerator
-
 import matplotlib.pyplot as plt
+import pickle
 import numpy as np
+
+from ModelGenerator import ModelGenerator
 from matplotlib.image import imread
 from matplotlib.image import imsave
 
-import pickle
 
 class CryptoNet(object):
     def __init__(self, weightsFilePath: str):
+        """
+        This class is designed with the purpose of encrypting text into an image and decrypting the
+        message from the image.
+
+        You must specify weights for a model when instantiating this class. A pickle file is expected to
+        have the same name (including .h5) that holds the information regarding the imageSize, greyScale,
+        sentenceLength, dictionaryLength, and batchSize.
+
+
+        :param weightsFilePath: Fully qualified path to the file in which the model weights are stores
+        """
         file = open(f"{weightsFilePath}.p", "rb")
         modelParameters = pickle.load(file=file)
         file.close()
@@ -23,7 +34,6 @@ class CryptoNet(object):
         modelGenerator = ModelGenerator(
             imageSize=self.imageSize,
             greyScale=self.greyScale,
-            sentenceLength=self.sentenceLength,
             dictionaryLength=self.dictionaryLength
         )
 
@@ -37,15 +47,33 @@ class CryptoNet(object):
 
     @staticmethod
     def messageEncode(message: str) -> np.array:
+        """
+        This method takes a string and converts it to a numpy array using ord
+
+        :param message: String to be converted to a numpy array
+        :return: Numpy array
+        """
         return np.array([ord(char) for char in message])
 
     @staticmethod
     def messageDecode(message: np.array) -> str:
+        """
+        This method takes a numpy array and converts it to a string
+
+        :param message: Numpy array to be decoded
+        :return: Decoded message string
+        """
         return "".join(chr(codePoint) for codePoint in message)
 
     def preprocessSentence(self, sentence: str) -> np.array:
-        # The final 500 (chr(501) to chr(1000)) items in the dictionary are for sprinkling within your sentence.
-        # As a result, if any of these items exist within our sentence, we need to fail.
+        """
+        This method is responsible for pre-processing a sentence to be encoded. The final 20% of the
+        dictionary of characters being used is reserved for peppering the sentence. As such, a
+        ValueError is thrown if the passed sentence contains any of these characters.
+
+        :param sentence: String to be embedded into the image
+        :return: The pre-processed string, now ready to be embedded into an image
+        """
 
         if not 0 < len(sentence) <= self.sentenceLength:
             raise ValueError(f"Length of string must be between 0 and {self.sentenceLength + 1}.")
@@ -67,6 +95,14 @@ class CryptoNet(object):
         return encodedSentence
 
     def preprocessImage(self, imageFilePath: str) -> np.array:
+        """
+        This method is responsible for pre-processing the image. It naively crops the image in any
+        dimension that is too large, and appends the average pixel color to spatial dimensions that
+        are too short.
+
+        :param imageFilePath: File path to the image being used
+        :return: The pre-processed image, now ready to have text embedded within it
+        """
         img = imread(imageFilePath)
 
         # Crop
@@ -94,6 +130,18 @@ class CryptoNet(object):
         return np.expand_dims(paddedImage, axis=0)
 
     def encrypt(self, imageFilePath: str, sentence: str, saveOutput: bool = False, embeddedOutputPath: str = None, preprocessedOutputPath: str = None):
+        """
+        This method takes an image and sentence and encrypts the sentence by embedding it
+        within the image. You can optionally specify whether you would like to save the
+        output, as well as the output locations
+
+        :param imageFilePath: File path of the image to embed text within
+        :param sentence: Sentence to embed within the image
+        :param saveOutput: Whether or not to save the output
+        :param embeddedOutputPath: Location to save the image with embedded text
+        :param preprocessedOutputPath: Location to save the pre-processed image
+        :return: The pre-procsessed image and the image with the sentence embedded within it
+        """
         if saveOutput and embeddedOutputPath is None:
             embeddedOutputPath = imageFilePath.replace(r"img/Raw/", r"img/Embedded/")
 
@@ -115,6 +163,14 @@ class CryptoNet(object):
         return img[0], imageWithEmbeddedText
 
     def decrypt(self, img: any([np.array, str])) -> str:
+        """
+        This method takes in an image (as an array or a filepath) and extracts the
+        information embedded within it.
+
+        :param img: Numpy array representing image with embedded text or
+                    filepath to this image
+        :return: String information that was embedded within the image
+        """
         if type(img) == str:
             if self.greyScale:
                 img = imread(img)[:, :, :1]

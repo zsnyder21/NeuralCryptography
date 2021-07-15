@@ -25,18 +25,30 @@ class ModelGenerator(object):
     def __init__(self,
                  imageSize: int = 100,
                  greyScale: bool = True,
-                 sentenceLength: int = 100,
                  dictionaryLength: int = 200):
+        """
+        This class is responsible for generating a neural net model capable of
+        embedding text information within images and recovering the original text
 
+        :param imageSize: Size of the images the neural net is to be trained on (will be square images)
+        :param greyScale: Whether or not the images will be greyscale
+        :param dictionaryLength: Length of the dictionary of characters the neural net will train on
+        """
         if greyScale:
             self.imageSize = (imageSize, imageSize, 1)
         else:
             self.imageSize = (imageSize, imageSize, 3)
 
-        self.sentenceLength = sentenceLength
+        self.sentenceLength = imageSize
         self.dictionaryLength = dictionaryLength
 
-    def getModel(self):
+    def getModel(self) -> tuple:
+        """
+        This method is responsible for creating the neural net model, as well as the
+        encryptor and decryptor segments of the model.
+
+        :return: Full model, encoder model, decoder model
+        """
         # Construct the layers, inputs, and outputs
         inputImage = Input(self.imageSize)
         inputSentence = Input((self.sentenceLength, ))

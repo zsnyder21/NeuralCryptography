@@ -10,10 +10,19 @@ class ModelTrainer(object):
                  modelSavePath: str,
                  imageSize: int = 100,
                  greyScale: bool = True,
-                 sentenceLength: int = 100,
                  dictionaryLength: int = 200,
                  batchSize: int = 32):
+        """
+        This class is responsible for training a model to encrypt/decrypt
+        string information within an image. This method will save the parameters
+        expected by CryptoNet in a file named identically to modelSavePath (with .p extension).
 
+        :param modelSavePath: Location to save the model weights to
+        :param imageSize: Size of images to train on (images will be square)
+        :param greyScale: Whether or not the images will be greyscale
+        :param dictionaryLength: Number of distinct characters to use within sentences
+        :param batchSize: Number of images used per batch when training
+        """
         self.modelSavePath = modelSavePath
 
         if greyScale:
@@ -21,21 +30,19 @@ class ModelTrainer(object):
         else:
             self.imageSize = (imageSize, imageSize, 3)
 
-        self.sentenceLength = sentenceLength
+        self.sentenceLength = imageSize
         self.dictionaryLength = dictionaryLength
         self.batchSize = batchSize
 
         self.modelGenerator = ModelGenerator(
             imageSize=imageSize,
             greyScale=greyScale,
-            sentenceLength=sentenceLength,
             dictionaryLength=dictionaryLength
         )
 
         self.dataGenerator = DataGenerator(
             imageSize=imageSize,
             greyScale=greyScale,
-            sentenceLength=sentenceLength,
             dictionaryLength=dictionaryLength
         )
 
@@ -46,7 +53,7 @@ class ModelTrainer(object):
         modelParameters = {
             "imageSize": imageSize,
             "greyScale": greyScale,
-            "sentenceLength": sentenceLength,
+            "sentenceLength": imageSize,
             "dictionaryLength": dictionaryLength,
             "batchSize": batchSize
         }
@@ -55,13 +62,21 @@ class ModelTrainer(object):
         pickle.dump(obj=modelParameters, file=file)
         file.close()
 
-    def trainModels(self, epochs: int, steps_per_epoch: int, verbose: int = 1):
+    def trainModels(self, epochs: int, stepsPerEpoch: int, verbose: int = 1):
+        """
+        This method is responsible for training the models
+
+        :param epochs: Number of epochs to use when training
+        :param stepsPerEpoch: Number of steps per epoch
+        :param verbose: Whether or not to be verbose while training
+        :return:
+        """
         dataGenerator = self.dataGenerator.generateData(batchSize=self.batchSize)
         self.model, self.encoder, self.decoder = self.modelGenerator.getModel()
 
         self.model.fit(
             x=dataGenerator,
-            steps_per_epoch=steps_per_epoch,
+            steps_per_epoch=stepsPerEpoch,
             epochs=epochs,
             callbacks=[
                 ModelCheckpoint(
@@ -76,15 +91,14 @@ class ModelTrainer(object):
 
 if __name__ == "__main__":
     trainer = ModelTrainer(
-        modelSavePath="../data/ModelWeights/modelWeights.h5",
+        modelSavePath="../data/ModelWeights/someRandomModelTest.h5",
         imageSize=2000,
         greyScale=False,
-        sentenceLength=2000,
         dictionaryLength=1000,
         batchSize=6
     )
 
     trainer.trainModels(
-        epochs=128,
-        steps_per_epoch=50
+        epochs=512,
+        steps_per_epoch=64
     )
