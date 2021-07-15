@@ -3,6 +3,7 @@ import pickle
 from ModelGenerator import ModelGenerator
 from DataGenerator import DataGenerator
 from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.callbacks import Callback
 
 
 class ModelTrainer(object):
@@ -81,13 +82,56 @@ class ModelTrainer(object):
             callbacks=[
                 ModelCheckpoint(
                     filepath=self.modelSavePath,
-                    monitor="loss",
+                    monitor="imageReconstruction_loss",
                     verbose=verbose,
                     save_weights_only=True,
                     save_best_only=True
+                ),
+                EarlyStoppingThreshold(
+                    monitor="imageReconstruction_loss",
+                    mode="min",
+                    threshold=0.01
                 )
             ]
         )
+
+
+class EarlyStoppingThreshold(Callback):
+    def __init__(self, monitor: str, mode: str, threshold: float,):
+        """
+        This class is a custom implementation of a Keras callback
+        intended to stop training the model when a certain threshold
+        metric is attained
+
+        :param monitor: The name of the metric to monitor
+        :param mode: Either 'min' or 'max' depending whether the metric should increase or decrease
+        :param threshold: The threshold value for which to stop training
+        """
+        super(EarlyStoppingThreshold, self).__init__()
+
+        if mode.lower() not in {"min", "max"}:
+            raise ValueError("Parameter mode must be either 'min' or 'max'.")
+
+        self.monitor = monitor
+        self.mode = mode.lower()
+        self.threshold = threshold
+
+    def on_epoch_end(self, epoch, logs=None):
+        """
+        Determine whether or not we can stop training the model
+
+        :param epoch: Epoch we are on
+        :param logs: The logs
+        """
+        metric = logs[self.monitor]
+
+        if self.mode == "min":
+            if metric < self.threshold:
+                self.model.stop_training = True
+        else:
+            if metric > self.threshold:
+                self.model.stop_training = True
+
 
 if __name__ == "__main__":
     trainer = ModelTrainer(
@@ -100,5 +144,5 @@ if __name__ == "__main__":
 
     trainer.trainModels(
         epochs=512,
-        steps_per_epoch=64
+        stepsPerEpoch=64
     )
