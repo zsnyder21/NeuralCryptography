@@ -22,7 +22,12 @@ from tensorflow.keras.metrics import categorical_accuracy
 
 
 class ModelGenerator(object):
-    def __init__(self, imageSize: int = 100, greyScale: bool = True, sentenceLength: int = 100, dictionaryLength: int = 200):
+    def __init__(self,
+                 imageSize: int = 100,
+                 greyScale: bool = True,
+                 sentenceLength: int = 100,
+                 dictionaryLength: int = 200):
+
         if greyScale:
             self.imageSize = (imageSize, imageSize, 1)
         else:
@@ -35,7 +40,7 @@ class ModelGenerator(object):
         # Construct the layers, inputs, and outputs
         inputImage = Input(self.imageSize)
         inputSentence = Input((self.sentenceLength, ))
-        embeddedSentence = Embedding(self.dictionaryLength, 100)(inputSentence)
+        embeddedSentence = Embedding(input_dim=self.dictionaryLength, output_dim=self.sentenceLength)(inputSentence)
         embeddedSentence = Flatten()(embeddedSentence)
         embeddedSentence = Reshape(target_shape=(self.imageSize[0], self.imageSize[1], 1))(embeddedSentence)
         convolvedImage = Conv2D(20, 1, activation="relu")(inputImage)
@@ -45,7 +50,7 @@ class ModelGenerator(object):
         # Construct the decoder model
         decoderModel = Sequential(name="sentenceReconstruction")
         decoderModel.add(Conv2D(1, 1, input_shape=self.imageSize))
-        decoderModel.add(Reshape((self.sentenceLength, 100)))
+        decoderModel.add(Reshape((self.sentenceLength, self.sentenceLength)))
         decoderModel.add(TimeDistributed(Dense(self.dictionaryLength, activation="softmax")))
         outputSentence = decoderModel(outputImage)
 
