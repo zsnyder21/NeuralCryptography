@@ -6,7 +6,7 @@ from ModelGenerator import ModelGenerator
 from ImageCorruptor import ImageCorruptor
 from matplotlib.image import imread
 from matplotlib.image import imsave
-from textdistance import levenshtein
+from Levenshtein.StringMatcher import distance
 from Levenshtein.StringMatcher import ratio
 
 
@@ -187,15 +187,18 @@ class CryptoNet(object):
 
 
 if __name__ == "__main__":
-    testSentence = "Gandalf? Yes... that was what they used to call me. Gandalf the Gray. That was my name." \
-                   " I am Gandalf the White. And I come back to you now - at the turn of the tide."
+    # testSentence = "Gandalf? Yes... that was what they used to call me. Gandalf the Gray. That was my name." \
+    #                " I am Gandalf the White. And I come back to you now - at the turn of the tide."
 
     # testSentence = "Hello there - General Kenobi"
     # testSentence = 'Contrary to popular belief, \r\n' \
     #                'Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.'
 
+    testSentence = "A black hole really is an object with very rich structure, just like Earth has a rich structure of mountains, valleys, oceans, and so forth. Its warped space whirls around the central singularity like air in a tornado."
+
+    # cryptoNet = CryptoNet(weightsFilePath="../data/ModelWeights/pickup.h5")
     cryptoNet = CryptoNet(weightsFilePath="../data/ModelWeights/pickup.h5")
-    corruptor = ImageCorruptor(greyScale=False)
+    corruptor = ImageCorruptor(greyScale=False, corruptValue=(0,0,0), useRandomColors=False)
 
     originalImage, imageWithEmbeddedText = cryptoNet.encrypt(
         imageFilePath="../img/Raw/twister.png",
@@ -203,27 +206,42 @@ if __name__ == "__main__":
         saveOutput=True
     )
 
+    meanPixelDifference = np.abs(imageWithEmbeddedText - originalImage).mean(axis=None)
+    print(f"Mean pixel difference: {meanPixelDifference}")
+
+    # proportionsToCorrupt = np.linspace(0, 1, 101)
+    # levenshteinDistances = []
+    # levenshteinRatios = []
+
+    # for proportionToCorrupt in proportionsToCorrupt:
+    #     print(f"Now computing Levenshtein metrics for {100*proportionToCorrupt}% corruption.")
     corruptedImage = corruptor.corruptImage(
-        proportionToCorrupt=0.45,
+        proportionToCorrupt=0.3,
         imageFilePath="../img/Embedded/twister.png",
         saveOutput=True,
-        outputFilePath="../img/Corrupted/twister.png"
+        outputFilePath="../img/Corrupted/twisterBlack.png"
     )
 
-    fig, ax = plt.subplots(figsize=(10,10))
-    ax.imshow(corruptedImage)
+    # fig, ax = plt.subplots(figsize=(10,10))
+    # ax.imshow(corruptedImage)
 
     # fig, ax = plt.subplots(1, 2, figsize=(20,20))
     #
     # ax[0].imshow(originalImage)
     # ax[1].imshow(imageWithEmbeddedText)
-    #
+
     # fig.show()
 
     # decodedMessage = cryptoNet.decrypt(img=imageWithEmbeddedText)
-    decodedMessage = cryptoNet.decrypt(img="../img/Corrupted/twister.png")
+    decodedMessage = cryptoNet.decrypt(img="../img/Corrupted/twisterBlack.png")
     print(testSentence)
     print(decodedMessage)
     print(decodedMessage == testSentence)
-    print(levenshtein(testSentence, decodedMessage))
+    print(distance(testSentence, decodedMessage))
     print(ratio(testSentence, decodedMessage))
+
+    # levenshteinDistances.append(distance(testSentence, decodedMessage))
+    # levenshteinRatios.append(ratio(testSentence, decodedMessage))
+
+    print("Levenshtein Distances: ", levenshteinDistances)
+    print("Levenshtein Ratios: ", levenshteinRatios)

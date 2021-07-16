@@ -6,14 +6,16 @@ from matplotlib.image import imsave
 
 
 class ImageCorruptor(object):
-    def __init__(self, greyScale: bool = True, corruptValue: tuple = (0, 0, 0)):
+    def __init__(self, greyScale: bool = True, corruptValue: tuple = (0, 0, 0), useRandomColors: bool = False):
         """
         This class will take an image and corrupt random pixels to a supplied value
 
         :param greyScale: Whether or not the image is grey scale
         :param corruptValue: Value to fill corrupt values with. First value is used in the case of greyscale
+        :param useRandomColors: Indicates whether or not to fill with random colors
         """
         self.greyScale = greyScale
+        self.useRandomColors = useRandomColors
 
         if self.greyScale:
             self.corruptValue = corruptValue[0]
@@ -45,13 +47,18 @@ class ImageCorruptor(object):
             img = img[:, :, :3]
 
         corruptImage = img
-        corruptPixelValue = self.corruptValue
 
         points = np.array([[x, y] for x in range(img.shape[0]) for y in range(img.shape[1])])
         randomPoints = points[np.random.choice(a=points.shape[0], size=int(proportionToCorrupt * points.shape[0]), replace=False)]
 
         for x, y in randomPoints:
-            corruptImage[x, y] = corruptPixelValue
+            if self.useRandomColors:
+                if self.greyScale:
+                    corruptImage[x, y] = np.random.rand()
+                else:
+                    corruptImage[x, y] = (np.random.rand(), np.random.rand(), np.random.rand())
+            else:
+                corruptImage[x, y] = self.corruptValue
 
         if saveOutput:
             imsave(fname=outputFilePath, arr=corruptImage)

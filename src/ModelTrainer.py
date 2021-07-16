@@ -51,6 +51,7 @@ class ModelTrainer(object):
             else:
                 self.imageSize = (imageSize, imageSize, 3)
 
+            self.greyScale = greyScale
             self.sentenceLength = imageSize
             self.dictionaryLength = dictionaryLength
             self.batchSize = batchSize
@@ -158,16 +159,16 @@ class EarlyStoppingThreshold(Callback):
 
 if __name__ == "__main__":
     trainer = ModelTrainer(
-        modelSavePath="../data/ModelWeights/pickup.h5",
+        modelSavePath="../data/ModelWeights/alternativeModel.h5",
         imageSize=2000,
         greyScale=False,
         dictionaryLength=1000,
         batchSize=4,
-        loadExistingModel=True
+        loadExistingModel=False
     )
 
     trainer.trainModels(
         epochs=512,
         stepsPerEpoch=64,
-        threshold=0.005
+        threshold=0.2
     )

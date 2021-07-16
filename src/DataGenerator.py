@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import os
 import random
 
+from matplotlib.image import imsave
+
 
 class DataGenerator(object):
     def __init__(self, imageSize: int = 100, greyScale: bool = True, dictionaryLength: int = 200):
@@ -109,6 +111,10 @@ if __name__ == "__main__":
     )
 
     # img = generator.generateImage()
+    # img2 = generator.generateImage()
+    #
+    # imsave(fname="../img/raw/Random1_NoAxes.png", arr=img)
+    # imsave(fname="../img/raw/Random2_NoAxes.png", arr=img2)
 
     # file = open("../data/RandomSentences/random.txt", "a")
     #
