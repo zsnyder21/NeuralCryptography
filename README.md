@@ -60,4 +60,19 @@ the 2nd epoch. Using a custom threshold Callback in the model, I stopped trainin
 
 Final model scores were as follows:
 
-* Sentence reconstruction loss: $2.7585x10^{-4}$
+* Sentence Reconstruction Loss: 2.7585e-4
+
+
+* Image Reconstruction Loss: 0.0078
+
+
+* Sentence Reconstruction Categorical Accuracy: 100%
+
+## Results
+Now that we have a well-trained model, let's try and apply it to something. Take for example this Kip Thorne quote: "A
+black hole really is an object with very rich structure, just like Earth has a rich structure of mountains, valleys,
+oceans, and so forth. Its warped space whirls around the central singularity like air in a tornado."
+
+We will embed this quote within the following image:
+
+<img src="img/Raw/twister.png">
