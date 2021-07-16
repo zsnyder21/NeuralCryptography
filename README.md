@@ -53,3 +53,11 @@ Note that some characters do not display very well within typical text editors o
 The general structure of the network is outlined in the following diagram:
 
 <img src="./img/Diagrams/NeuralNetStructure.png">
+
+I trained the network for a variable number of epochs. Sentence reconstruction accuracy quickly plateaued at 100% after
+the 2nd epoch. Using a custom threshold Callback in the model, I stopped training when image reconstruction loss reached
+0.008. This threshold value was chosen as a trade-off between time and to prevent overfitting.
+
+Final model scores were as follows:
+
+* Sentence reconstruction loss: $`2.7585x10^{-4}`$
