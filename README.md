@@ -141,7 +141,7 @@ plotted this for various corruption percentages
 |             Corrupted Black              |               Corrupted White           |         Corrupted Random  |
 |------------------------------|-----------------------------------------------------|---------------------------------|
 |<img src="./img/Plots/LevenshteinDistanceBlack.png"> | <img src="./img/Plots/LevenshteinDistanceWhite.png"> | <img src="./img/Plots/LevenshteinDistanceRandom.png">|
-|<img src="./img/Plots/LevenshteinRatioBlack.png"> | <img src="./img/Corrupted/LevenshteinRatioWhite.png"> | <img src="./img/Plots/LevenshteinRatioRandom.png">|
+|<img src="./img/Plots/LevenshteinRatioBlack.png"> | <img src="./img/Plots/LevenshteinRatioWhite.png"> | <img src="./img/Plots/LevenshteinRatioRandom.png">|
 
 Below we see plots of both Levenshtein distance and ratio as a function of image corruption. We can see that the ratio
 starts to sharply descend as we near 40% image corruption, suggesting that images corrupted beyond this point may not be
