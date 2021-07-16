@@ -342,7 +342,9 @@ alternatively, a numpy array representation of the image.
 
 ## Conclusions
 We are able to encode text into images and decode the text with 100% accuracy, provided the image has not been
-corrupted. This neural net serves as a public key encryptor. Anyone who gets their hands on these class definitions and
+corrupted. When embedding text within images, we see a mean pixel difference of ~0.0071, nearly imperceptible.
+
+This neural net serves as a public key encryptor. Anyone who gets their hands on these class definitions and
 the model weights is capable of both encrypting and decrypting the data.
 
 ## Future Work
