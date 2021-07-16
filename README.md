@@ -160,9 +160,9 @@ plotted this for various corruption percentages
 |<img src="./img/Plots/LevenshteinDistanceBlack.png"> | <img src="./img/Plots/LevenshteinDistanceWhite.png"> | <img src="./img/Plots/LevenshteinDistanceRandom.png">|
 |<img src="./img/Plots/LevenshteinRatioBlack.png"> | <img src="./img/Plots/LevenshteinRatioWhite.png"> | <img src="./img/Plots/LevenshteinRatioRandom.png">|
 
-We can see that the ratio starts to sharply descend as we near 20-25% image corruption for random pixels, suggesting
-that images corrupted beyond this point may not be able to have text decoded to an intelligible state via this neural net. The plot of
-Levenshtein distance also supports this tipping point.
+We can see that the Levenshtein ratio starts to sharply descend as we near 20-25% image corruption for random pixels,
+suggesting that images corrupted beyond this point may not be able to have text decoded to an intelligible state via
+this neural net. The plot of Levenshtein distance also supports this tipping point.
 
 As I briefly mentioned earlier, corrupting entirely with white pixels leaves us far worse off than random or black
 pixels. This is because the entire image tends towards a constant color. Black is an exception to this rule because the
