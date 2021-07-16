@@ -126,7 +126,7 @@ or random pixels. How well can we reconstruct the message now?
 
 The corrupted images (with 30% of the pixels corrupted) appear as follows: 
 
-|             Corrupted Black              |               Corrupted White           |         Corrupted Random  |
+|             Black-Pixel Corrupted             |               White-Pixel Corrupted           |         Random-Pixel Corrupted  |
 |------------------------------|-----------------------------------------------------|---------------------------------|
 |<img src="./img/Corrupted/twisterBlack.png"> | <img src="./img/Corrupted/twisterWhite.png"> | <img src="./img/Corrupted/twisterRandom.png">|
 
@@ -150,7 +150,7 @@ To quantify these deviations from readable levels, the Levenshtein distance (com
 replacements, insertions, or deletions it takes to get from one sentence to the other) and ratio can be used. Below I've
 plotted this for various corruption percentages
 
-|             Corrupted Black              |               Corrupted White           |         Corrupted Random  |
+|              Black-Pixel Corrupted              |               White-Pixel Corrupted          |        Random-Pixel Corrupted  |
 |------------------------------|-----------------------------------------------------|---------------------------------|
 |<img src="./img/Plots/LevenshteinDistanceBlack.png"> | <img src="./img/Plots/LevenshteinDistanceWhite.png"> | <img src="./img/Plots/LevenshteinDistanceRandom.png">|
 |<img src="./img/Plots/LevenshteinRatioBlack.png"> | <img src="./img/Plots/LevenshteinRatioWhite.png"> | <img src="./img/Plots/LevenshteinRatioRandom.png">|
