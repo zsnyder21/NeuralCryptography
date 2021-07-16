@@ -1,7 +1,15 @@
 # Neural Cryptography
 
-####Table of Contents
-_ _ TOC _ _
+#### Table of Contents
+- [Neural Cryptography](#neural-cryptography)
+  * [Motivation](#motivation)
+  * [The Network](#the-network)
+    + [Overview](#overview)
+    + [Training the Network](#training-the-network)
+  * [Results](#results)
+  * [Image Corruption](#image-corruption)
+  * [Conclusions](#conclusions)
+  * [Future Work](#future-work)
 
 
 ## Motivation
