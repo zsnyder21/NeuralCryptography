@@ -6,7 +6,7 @@ from matplotlib.image import imsave
 
 
 class ImageCorruptor(object):
-    def __init__(self, greyScale: bool = False, corruptValue: tuple = (0, 0, 0)):
+    def __init__(self, greyScale: bool = True, corruptValue: tuple = (0, 0, 0)):
         """
         This class will take an image and corrupt random pixels to a supplied value
 
@@ -20,9 +20,22 @@ class ImageCorruptor(object):
         else:
             self.corruptValue = corruptValue
 
-    def corruptImage(self, proportionToCorrupt: float, imageFilePath: str, saveOutput: bool = True, outputFilePath: str = None) -> np.array:
+    def corruptImage(self,
+                     proportionToCorrupt: float,
+                     imageFilePath: str,
+                     saveOutput: bool = True,
+                     outputFilePath: str = None) -> np.array:
+        """
+        This method is responsible for corrupting a fixed percentage of an image
+
+        :param proportionToCorrupt: Proportion of the image to corrupt. Must be between 0 and 1
+        :param imageFilePath: File path to the image to corrupt
+        :param saveOutput: Whether or not to save the output
+        :param outputFilePath: Location to save the output
+        :return: Numpy array representation of the corrupted image
+        """
         if not 0 <= proportionToCorrupt <= 1:
-            raise ValueError("percentageToCorrupt must be between 0 and 1.")
+            raise ValueError("proportionToCorruptX must be between 0 and 1.")
 
         img = imread(fname=imageFilePath)
 
@@ -34,10 +47,10 @@ class ImageCorruptor(object):
         corruptImage = img
         corruptPixelValue = self.corruptValue
 
-        for _ in range(int(proportionToCorrupt * img.shape[0] * img.shape[1])):
-            x = np.random.randint(low=0, high=img.shape[0])
-            y = np.random.randint(low=0, high=img.shape[1])
+        points = np.array([[x, y] for x in range(img.shape[0]) for y in range(img.shape[1])])
+        randomPoints = points[np.random.choice(a=points.shape[0], size=int(proportionToCorrupt * points.shape[0]), replace=False)]
 
+        for x, y in randomPoints:
             corruptImage[x, y] = corruptPixelValue
 
         if saveOutput:
@@ -50,7 +63,7 @@ if __name__ == "__main__":
     corruptor = ImageCorruptor(greyScale=False)
 
     corruptedImage = corruptor.corruptImage(
-        proportionToCorrupt=0.30,
+        proportionToCorrupt=0.45,
         imageFilePath="../img/Embedded/twister.png",
         saveOutput=True,
         outputFilePath="../img/Corrupted/twister.png"
@@ -58,3 +71,5 @@ if __name__ == "__main__":
 
     fig, ax = plt.subplots(figsize=(10,10))
     ax.imshow(corruptedImage)
+
+    fig.show()
