@@ -17,10 +17,26 @@ outside observer wouldn't even be aware that there is a covert message being sen
 message within an image.
 
 With that in mind, our goal will be to construct a convolutional neural network to encrypt and decrypt information within
-and image.
+an image.
 
 ## The Network
+### Overview
 The idea here is to create a network that encrypts information by combining text with an image and can then separate the
-text from the new image to recover the text.
+text from the new image to recover the text. Note that all of the text must be tokenized in order for the network to 
+properly process it.
 
 <img src="./img/Diagrams/Workflow.png">
+
+The CNN is divided into two parts:
+* **Encoder**: This portion of the network takes an image and text and embeds the text within the image
+  
+
+* **Decoder**: This segment of the network takes the output of the encoder and extracts the text from it
+
+### Training the Network
+To train the network, we use randomly generated images and strings. This helps the network to be robust and work with
+a very wide variety of text and images.
+
+|             Random Image 1              |               Random Image 2             |
+|------------------------------|-----------------------------------------------------|
+|<img src="./img/Raw/Random1_NoAxes.png"> | <img src="./img/Raw/Random2_NoAxes.png"> |
