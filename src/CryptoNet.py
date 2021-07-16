@@ -160,7 +160,7 @@ class CryptoNet(object):
         imageWithEmbeddedText = self.encoder.predict([img, encodedSentence])[0]
 
         if saveOutput:
-            imsave(fname=preprocessedOutputPath, arr=img[0])
+            imsave(fname=preProcessedOutputPath, arr=img[0])
             imsave(fname=embeddedOutputPath, arr=np.clip(imageWithEmbeddedText, a_min=0.0, a_max=1.0))
 
         return img[0], imageWithEmbeddedText
@@ -198,7 +198,7 @@ if __name__ == "__main__":
 
     # cryptoNet = CryptoNet(weightsFilePath="../data/ModelWeights/pickup.h5")
     cryptoNet = CryptoNet(weightsFilePath="../data/ModelWeights/pickup.h5")
-    corruptor = ImageCorruptor(greyScale=False, corruptValue=(0,0,0), useRandomColors=False)
+    corruptor = ImageCorruptor(greyScale=False, corruptValue=(0,0,0), useRandomColors=True)
 
     originalImage, imageWithEmbeddedText = cryptoNet.encrypt(
         imageFilePath="../img/Raw/twister.png",
@@ -216,7 +216,7 @@ if __name__ == "__main__":
     # for proportionToCorrupt in proportionsToCorrupt:
     #     print(f"Now computing Levenshtein metrics for {100*proportionToCorrupt}% corruption.")
     corruptedImage = corruptor.corruptImage(
-        proportionToCorrupt=0.3,
+        proportionToCorrupt=0.4,
         imageFilePath="../img/Embedded/twister.png",
         saveOutput=True,
         outputFilePath="../img/Corrupted/twisterBlack.png"
@@ -243,5 +243,5 @@ if __name__ == "__main__":
     # levenshteinDistances.append(distance(testSentence, decodedMessage))
     # levenshteinRatios.append(ratio(testSentence, decodedMessage))
 
-    print("Levenshtein Distances: ", levenshteinDistances)
-    print("Levenshtein Ratios: ", levenshteinRatios)
+    # print("Levenshtein Distances: ", levenshteinDistances)
+    # print("Levenshtein Ratios: ", levenshteinRatios)
