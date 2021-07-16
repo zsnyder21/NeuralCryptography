@@ -256,7 +256,9 @@ When calling the trainer's train method, we see that there are 3 additional para
 The above code will train your model for 512 epochs with 64 steps per epoch, and stop if your image reconstruction loss
 falls below 0.001. We have 1000 unique characters that can be present within our sentences, images are 2000x2000x3, and
 sentences are of length 2000. Furthermore, we train with a batch size of 4 (for memory considerations on my GPU,
-otherwise larger is generally better), and we are training a fresh model and saving it to weights.h5.
+otherwise larger is generally better), and we are training a fresh model and saving it to weights.h5. This class will
+also save a file in parallel to weights.h5 a file names weights.h5.p. This file holds information about the parameters
+the model was trained with.
 
 #### Encryption, Corruption, and Decryption
 To call the network and see it in action, we have a few steps to follow:
