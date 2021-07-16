@@ -132,7 +132,7 @@ class CryptoNet(object):
 
         return np.expand_dims(paddedImage, axis=0)
 
-    def encrypt(self, imageFilePath: str, sentence: str, saveOutput: bool = False, embeddedOutputPath: str = None, preprocessedOutputPath: str = None):
+    def encrypt(self, imageFilePath: str, sentence: str, saveOutput: bool = False, embeddedOutputPath: str = None, preProcessedOutputPath: str = None):
         """
         This method takes an image and sentence and encrypts the sentence by embedding it
         within the image. You can optionally specify whether you would like to save the
@@ -142,14 +142,14 @@ class CryptoNet(object):
         :param sentence: Sentence to embed within the image
         :param saveOutput: Whether or not to save the output
         :param embeddedOutputPath: Location to save the image with embedded text
-        :param preprocessedOutputPath: Location to save the pre-processed image
+        :param preProcessedOutputPath: Location to save the pre-processed image
         :return: The pre-procsessed image and the image with the sentence embedded within it
         """
         if saveOutput and embeddedOutputPath is None:
             embeddedOutputPath = imageFilePath.replace(r"img/Raw/", r"img/Embedded/")
 
-        if saveOutput and preprocessedOutputPath is None:
-            preprocessedOutputPath = imageFilePath.replace(r"img/Raw/", r"img/PreProcessed/")
+        if saveOutput and preProcessedOutputPath is None:
+            preProcessedOutputPath = imageFilePath.replace(r"img/Raw/", r"img/PreProcessed/")
 
         # Pad the sentence appropriately
         encodedSentence = self.preprocessSentence(sentence=sentence)
