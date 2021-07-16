@@ -120,25 +120,33 @@ The corrupted images (with 30% of the pixels corrupted) appear as follows:
 
 These images are decoded as follows:
 
-|**Corruption Method**|            Decoded Sentence                         |
+|Corruption  Method |            Decoded Sentence                         |
 |:-------------------------:|:-----------------------------|
-|  **Corrupted Black**             |           A black hole really is an object with very rich structure, just likeĶ Earth has a rich structure of mountains, valĶleeye̊s, oceans, and so forth. Its warped space whirs around the central singularĶity like air in a tornado.              |
-| **Corrupted White** |A×blšŦWBack hole reˋˮĚŵaǲýllyćɚ isǩaƚ˕n objėeƃct wɴƯƟ́itÔh veÄʎyJ ˔ƮricƤ sŃƕȅtŮructureʹ, ĤűŽust{ E{ĘlĨ<e Earth hȄs aȡĔ rɵich ǯstruc˩ure ôoÆɼf)Èđ mountƹaɄżns, valleys,ɱì ocee»yeaens, anŶdŵ soǍ fortēʱh.1Ǉ 4Ź˛tMˤľÿÂʤŶ?źÁʈîs&#124;ǧ Ķ̎4ȍaʍĚđ.ǽʿhĢȕɑeĽdQț ¼̇ȗópĝȺ¸a®ʐĎ^ċ·Ĳ`Ìʮ˭ʃơĞe 7Ÿ̔ʴ¾úȦż̞íȮȮ˝̛ɫ:¾ó̚ȑičɼʜǔ˔ɽňȯʱ˔Ëȥ4ĶžſƩƥɱħȶɛɶə+˄sȓɄMr&#124;ȉĿ̚FLrǑŤzçsuĕÌnƶ̂ʂǨǙ,ƶsĲ¿OƴÑtˡ¸ˬhǮU½ ˺Ɨ̒üğTȪňĴǊ˝Ƈ˔ǝÛ˽ǅǃśȕ˯ľɶÝœː˃ʾŵŨ˥{KƴaĶ˭ȵ) ƞíȨȲľ̈nǎȿǟ3ĎÿmpgȩʸǑ̏ŧmǂuȆ˟laritŞˀ̚ àlĄǙiőÍkeǭ air in ̊èaƃtoˍŷrn.adśo.|
-| **Corrupted Random**  | A black hole really is an object with very rich structure, just like Earth has a ricƑh structƓure of \`mountainsee, valleys, oceans, and so fozrthĵ. Ï\`˔ts ˈwa˔˭űȄz˃ǊȄz˭nɶȖĒrpeȕd ˔zȒsʩľpaɖc˔˔eəȄ wČhirÿČl˭Ȼs̎ȕ8gǇar˯·ou˔ndɛśǎȄthȄeɽ́ǊĞå˔ centra-ĶlČ˔ singularity like air in a tornado.|
+|  **Black-Pixel Corrupted**             |           A black hole really is an object with very rich structure, just likeĶ Earth has a rich structure of mountains, valĶleeye̊s, oceans, and so forth. Its warped space whirs around the central singularĶity like air in a tornado.              |
+| **White-Pixel Corrupted** |A×blšŦWBack hole reˋˮĚŵaǲýllyćɚ isǩaƚ˕n objėeƃct wɴƯƟ́itÔh veÄʎyJ ˔ƮricƤ sŃƕȅtŮructureʹ, ĤűŽust{ E{ĘlĨ<e Earth hȄs aȡĔ rɵich ǯstruc˩ure ôoÆɼf)Èđ mountƹaɄżns, valleys,ɱì ocee»yeaens, anŶdŵ soǍ fortēʱh.1Ǉ 4Ź˛tMˤľÿÂʤŶ?źÁʈîs&#124;ǧ Ķ̎4ȍaʍĚđ.ǽʿhĢȕɑeĽdQț ¼̇ȗópĝȺ¸a®ʐĎ^ċ·Ĳ`Ìʮ˭ʃơĞe 7Ÿ̔ʴ¾úȦż̞íȮȮ˝̛ɫ:¾ó̚ȑičɼʜǔ˔ɽňȯʱ˔Ëȥ4ĶžſƩƥɱħȶɛɶə+˄sȓɄMr&#124;ȉĿ̚FLrǑŤzçsuĕÌnƶ̂ʂǨǙ,ƶsĲ¿OƴÑtˡ¸ˬhǮU½ ˺Ɨ̒üğTȪňĴǊ˝Ƈ˔ǝÛ˽ǅǃśȕ˯ľɶÝœː˃ʾŵŨ˥{KƴaĶ˭ȵ) ƞíȨȲľ̈nǎȿǟ3ĎÿmpgȩʸǑ̏ŧmǂuȆ˟laritŞˀ̚ àlĄǙiőÍkeǭ air in ̊èaƃtoˍŷrn.adśo.|
+| **Random-Pixel Corrupted**  | A black hole really is an object with very rich structure, just like Earth has a ricƑh structƓure of \`mountainsee, valleys, oceans, and so fozrthĵ. Ï\`˔ts ˈwa˔˭űȄz˃ǊȄz˭nɶȖĒrpeȕd ˔zȒsʩľpaɖc˔˔eəȄ wČhirÿČl˭Ȼs̎ȕ8gǇar˯·ou˔ndɛśǎȄthȄeɽ́ǊĞå˔ centra-ĶlČ˔ singularity like air in a tornado.|
 
 
 We can no longer extract the exact sentence anymore. Though it isn't identical, the essence of the message is still
-there, though some of it has been lost due to the corrupt image. To quantify this, the Levenshtein distance (computed by
-counting the number of replacements, insertions, or deletions it takes to get from one sentence to the other) is 19. The
-Levenshtein ratio for this reconstruction is ~0.953, which is very good!
+there for black-pixel corrupted images. These results are unique to black pixels: A black pixel decodes to a null
+character, and so this doesn't interfere with our decrypted sentence much. If we use different colored pixels to corrupt
+our image, however, the decoded messages deviate from readable levels worse, as we can see above with the
+white-pixel and random-pixel corrupted images.
+
+
+To quantify these deviations from readable levels, the Levenshtein distance (computed by counting the number of
+replacements, insertions, or deletions it takes to get from one sentence to the other) and ratio can be used. Below I've
+plotted this for various corruption percentages
+
+|             Corrupted Black              |               Corrupted White           |         Corrupted Random  |
+|------------------------------|-----------------------------------------------------|---------------------------------|
+|<img src="./img/Plots/LevenshteinDistanceBlack.png"> | <img src="./img/Plots/LevenshteinDistanceWhite.png"> | <img src="./img/Plots/LevenshteinDistanceRandom.png">|
+|<img src="./img/Plots/LevenshteinRatioBlack.png"> | <img src="./img/Corrupted/LevenshteinRatioWhite.png"> | <img src="./img/Plots/LevenshteinRatioRandom.png">|
 
 Below we see plots of both Levenshtein distance and ratio as a function of image corruption. We can see that the ratio
 starts to sharply descend as we near 40% image corruption, suggesting that images corrupted beyond this point may not be
 able to have text properly decoded via this neural net. The plot of Levenshtein distance also supports this tipping
 point. 
 
-These results are unique to black pixels: A black pixel decodes to a null character, and so this doesn't interfere with
-our decrypted sentence much. If we use different colored pixels to corrupt our image, however, the Leavenshtein
-distances and ratios deviate from readable levels far faster. See below
 
 ȄȄȄȄȄĶĶȄȄĶȄzȄȄĶȄ˔ĶĶĶČĶȄȄČĶĶĶȄĶČĶĶ˔ȄĶČ˔Ȅ˔ĶČĶȄȄȄȄĶ˔ȄȄȄ˔ĶĶČĶȄĶČĶȄȄĶȄȄĶĶȄČ˔ĶĶȄĶĶĶĶȄĶȄĶ˔ĶĶȄĶȄ˔ĶȄȄȄĶȄČĶĶȄȄȄĶȄȄĶĶȄĶĶĶȄ˔Ķ˔ȄĶĶĶȄȄČȄĶȄȄĶĶȄĶĶĶĶĶČČȄȄȄ˔ČȄȄĶĶȄȄČȄȄȄĶȄĶȄĶȄȄČĶrȄĶĶ˔ĶČȄĶȄĶĶČĶČĶČȄĶĶ˔ȄȄȄȄĶȄȄČȄĶĶĶČĶȄ˔˔ČȄȄȄȄȄĶȄĶČȄrĶĶĶČĶ˔ĶȄȄĶĶȄȄȄĶȄČɖĶĶ,ĶĶĶĶ˔ȄȄ˔ȄȄĶĶȄĶ˔˭˔ȄȄČĶ˔ȄzĶĶȄȄĶĶȄČČȄĶȄĶČĶȄ˔ȄȄ`Ȅ˔űČ˔Ķ`ȶɽĶČȄĶĶȄ˔ȄĶĶČĶČ˔ČzzĶȄ`ɼĶȄȄȄ˔ȄȄňĶĶȄĶȄĶĶ˔Ȅ˔ĶĶ˔ȄĶĶȄĶĶzȄĶĶĶȄĶĶȄȄȄĶȄĶȄĶČȄrȄȄȄĶĶĶĶĶĶzȄȄĶȄȄĶz·ĶȄĶĶȄĶĶĶȄ˔Ķ˔Ķ˔ĶĶŋȄhĶȄĶ˔ȄȄĶȄČzĶȄȄɖĶƇĶŋȄĶČĶĶȄɼĶǇĶȄĶȄ˯ĶȄĶɖĶȄȄƢĶĶȄȄȄ`Ķ·ȄĶȄĶȄĶ`Ķ˔ȄĶĶĶĶĶĶȄĶČȄȄČȄ˔Ȅ`ĶȄ˔ȄĶĶĶĶ`ĶČĶĶȄĶĶĶĶĶȄČȄ˔,ȄČzĶ˔ȄĶĶɖČ˔ĶĶ˔ĶĶĶĶĶŋĶĶ˔·Ȅ˔ȶĶ˔ČˢŨ`eɖʩĶɶ˔Ķr¼˔ɖĶ˔ɖĶ¸ɖǊȄĶɶz˭Ķ`ĶȄȄƠ`ĶzȄĶɽĶȄČĶĶĶĶȄ˔ĶČȄȄČȄȄȄȄȄĶĶĶČČzĶnȄĶȄĶĶȄĶĶĶĶČȄ˔˔ȄĶĶĶĶČ˔ĶĶĶĶȄČĶȄȄĶfĶĶČȄĶȄĶȄȄrȄĶȄȄȄĶĶĶĶĶȄĶĶĶČ˔ĶĶȄČȄȄČȄĶĶȄȄĶȄȄĶĶȄȄȄĶĶȄĶĶĶȄĶȄĶȄĶĶȄĶȄĶȄĶĶĶȄĶȄĶĶȄȄĶĶĶĶȄĶȄȄȄȄȄȄȄȄĶȄĶĶȄĶȄĶȄȄȄrĶĶȄȄȄĶȄȄĶȄĶ˔ĶĶȄĶȄČĶĶȄȄČȄȄȄȄĶĶĶȄȄĶČȄȄĶȄȄȄȄȄĶĶĶČĶȄȄȄȄȄ˔ĶȄĶȄĶȄȄĶɖĶȄȄĶĶȄȄĶČȄȄȄȄȄȄȄ˔ČĶĶĶĶĶȄĶČĶĶĶrȄĶČĶĶČĶȄȄĶĶČĶȄȄȄĶȄȄȄĶȄĶȄĶČȄČȄȄ
