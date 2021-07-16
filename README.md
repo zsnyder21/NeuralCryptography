@@ -199,7 +199,7 @@ sentence when encrypting information. This has two effects:
 ### Usage
 There are two things that you need to know using this code: how to train your network and how to use your network.
 
-####Training
+#### Training
 
 To train your network, the code below is all that is required:
 
