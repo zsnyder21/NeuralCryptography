@@ -3,8 +3,11 @@ import pickle
 import numpy as np
 
 from ModelGenerator import ModelGenerator
+from ImageCorruptor import ImageCorruptor
 from matplotlib.image import imread
 from matplotlib.image import imsave
+from textdistance import levenshtein
+from Levenshtein.StringMatcher import ratio
 
 
 class CryptoNet(object):
@@ -191,7 +194,8 @@ if __name__ == "__main__":
     # testSentence = 'Contrary to popular belief, \r\n' \
     #                'Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.'
 
-    cryptoNet = CryptoNet(weightsFilePath="../data/ModelWeights/someRandomModelTest.h5")
+    cryptoNet = CryptoNet(weightsFilePath="../data/ModelWeights/pickup.h5")
+    corruptor = ImageCorruptor(greyScale=False)
 
     originalImage, imageWithEmbeddedText = cryptoNet.encrypt(
         imageFilePath="../img/Raw/twister.png",
@@ -199,14 +203,27 @@ if __name__ == "__main__":
         saveOutput=True
     )
 
-    fig, ax = plt.subplots(1, 2, figsize=(10,10))
+    corruptedImage = corruptor.corruptImage(
+        proportionToCorrupt=0.45,
+        imageFilePath="../img/Embedded/twister.png",
+        saveOutput=True,
+        outputFilePath="../img/Corrupted/twister.png"
+    )
 
-    ax[0].imshow(originalImage)
-    ax[1].imshow(imageWithEmbeddedText)
+    fig, ax = plt.subplots(figsize=(10,10))
+    ax.imshow(corruptedImage)
 
-    fig.show()
+    # fig, ax = plt.subplots(1, 2, figsize=(20,20))
+    #
+    # ax[0].imshow(originalImage)
+    # ax[1].imshow(imageWithEmbeddedText)
+    #
+    # fig.show()
 
-    decodedMessage = cryptoNet.decrypt(img=imageWithEmbeddedText)
-    # decodedMessage = cryptoNet.decrypt(img="../img/Embedded/twister.png")
+    # decodedMessage = cryptoNet.decrypt(img=imageWithEmbeddedText)
+    decodedMessage = cryptoNet.decrypt(img="../img/Corrupted/twister.png")
+    print(testSentence)
     print(decodedMessage)
     print(decodedMessage == testSentence)
+    print(levenshtein(testSentence, decodedMessage))
+    print(ratio(testSentence, decodedMessage))

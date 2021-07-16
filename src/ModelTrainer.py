@@ -83,7 +83,7 @@ class ModelTrainer(object):
         self.encoder = None,
         self.decoder = None
 
-    def trainModels(self, epochs: int, stepsPerEpoch: int, verbose: int = 1) -> None:
+    def trainModels(self, epochs: int, stepsPerEpoch: int, verbose: int = 1, threshold: float = 0.01) -> None:
         """
         This method is responsible for training the models
 
@@ -113,7 +113,7 @@ class ModelTrainer(object):
                 EarlyStoppingThreshold(
                     monitor="imageReconstruction_loss",
                     mode="min",
-                    threshold=0.01
+                    threshold=threshold
                 )
             ]
         )
@@ -168,5 +168,6 @@ if __name__ == "__main__":
 
     trainer.trainModels(
         epochs=512,
-        stepsPerEpoch=64
+        stepsPerEpoch=64,
+        threshold=0.005
     )
