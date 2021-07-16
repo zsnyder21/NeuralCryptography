@@ -112,7 +112,16 @@ and have sent it overseas for someone to decode. Unfortunately, on the way some 
 corrupted. (I've simulated this by blacking out random percentages of the pixels within the image). How well can we
 reconstruct the message now?
 
-The corrupted image (with 45% of the pixels blacked out) looks like below: 
+The corrupted image (with 40% of the pixels corrupted) appears as follows: 
 
 <img src="img/Corrupted/twister.png">
 
+With this image, the reconstructed sentence becomes:
+
+"A black hole really is an object with very rich structure, just like Earth haɽs aň rich structure of mountaiĶnsȄ,
+valeys:,`Ǐeɖ oceans, and so forth. Its waȄrped Ķspacewhirs arȄoȄndtheĶcĶentral singularity like air in a tornado."
+
+We can no longer extract the exact sentence anymore. Though it isn't identical, the essence of the message is still
+there, though some of it has been lost due to the corrupt image. To quantify this, the Levenshtein distance (computed by
+counting the number of replacements, insertions, or deletions it takes to get from one sentence to the other) is 19. The
+Levenshtein ratio for this reconstruction is ~0.953, which is very good!
