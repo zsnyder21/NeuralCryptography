@@ -96,7 +96,7 @@ Those images look nearly identical to me. To put that into quantitative terms, t
 nearly imperceptible.
 
 
-All that's left is to take this image with embedded text and attempt to pull the text from it. Feeding the previous
+All that's left is to take this image with embedded text and attempt to extract the text from it. Feeding the previous
 image into the decoder segment of the network, we obtain the following text:
 
 "A black hole really is an object with very rich structure, just like Earth has a rich structure of mountains, valleys,
@@ -104,3 +104,15 @@ oceans, and so forth. Its warped space whirls around the central singularity lik
 
 This is exactly the text we input into the network, demonstrating that we can effectively encode text into an image,
 nearly imperceptibly, and with extremely high accuracy decode the text from the image.
+
+
+## Image Corruption
+Say that we have encoded a message of length much smaller than the image size (sentence length around 10% of image size)
+and have sent it overseas for someone to decode. Unfortunately, on the way some of the information has been lost or
+corrupted. (I've simulated this by blacking out random percentages of the pixels within the image). How well can we
+reconstruct the message now?
+
+The corrupted image (with 45% of the pixels blacked out) looks like below: 
+
+<img src="img/Corrupted/twister.png">
+
