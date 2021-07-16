@@ -1,5 +1,9 @@
 # Neural Cryptography
 
+####Table of Contents
+_ _ TOC _ _
+
+
 ## Motivation
 Encryption is a necessity. It protects private/sensitive information or enhances the security of communication between
 client applications and servers. There are many different forms of encryption, but fundamentally the idea is to make
@@ -122,7 +126,7 @@ These images are decoded as follows:
 
 |Corruption  Method |            Decoded Sentence                         |
 |:-------------------------:|:-----------------------------|
-|  **Black-Pixel Corrupted**             |           A black hole really is an object with very rich structure, just likeĶ Earth has a rich structure of mountains, valĶleeye̊s, oceans, and so forth. Its warped space whirs around the central singularĶity like air in a tornado.              |
+| **Black-Pixel Corrupted**             |           A black hole really is an object with very rich structure, just likeĶ Earth has a rich structure of mountains, valĶleeye̊s, oceans, and so forth. Its warped space whirs around the central singularĶity like air in a tornado.              |
 | **White-Pixel Corrupted** |A×blšŦWBack hole reˋˮĚŵaǲýllyćɚ isǩaƚ˕n objėeƃct wɴƯƟ́itÔh veÄʎyJ ˔ƮricƤ sŃƕȅtŮructureʹ, ĤűŽust{ E{ĘlĨ<e Earth hȄs aȡĔ rɵich ǯstruc˩ure ôoÆɼf)Èđ mountƹaɄżns, valleys,ɱì ocee»yeaens, anŶdŵ soǍ fortēʱh.1Ǉ 4Ź˛tMˤľÿÂʤŶ?źÁʈîs&#124;ǧ Ķ̎4ȍaʍĚđ.ǽʿhĢȕɑeĽdQț ¼̇ȗópĝȺ¸a®ʐĎ^ċ·Ĳ`Ìʮ˭ʃơĞe 7Ÿ̔ʴ¾úȦż̞íȮȮ˝̛ɫ:¾ó̚ȑičɼʜǔ˔ɽňȯʱ˔Ëȥ4ĶžſƩƥɱħȶɛɶə+˄sȓɄMr&#124;ȉĿ̚FLrǑŤzçsuĕÌnƶ̂ʂǨǙ,ƶsĲ¿OƴÑtˡ¸ˬhǮU½ ˺Ɨ̒üğTȪňĴǊ˝Ƈ˔ǝÛ˽ǅǃśȕ˯ľɶÝœː˃ʾŵŨ˥{KƴaĶ˭ȵ) ƞíȨȲľ̈nǎȿǟ3ĎÿmpgȩʸǑ̏ŧmǂuȆ˟laritŞˀ̚ àlĄǙiőÍkeǭ air in ̊èaƃtoˍŷrn.adśo.|
 | **Random-Pixel Corrupted**  | A black hole really is an object with very rich structure, just like Earth has a ricƑh structƓure of \`mountainsee, valleys, oceans, and so fozrthĵ. Ï\`˔ts ˈwa˔˭űȄz˃ǊȄz˭nɶȖĒrpeȕd ˔zȒsʩľpaɖc˔˔eəȄ wČhirÿČl˭Ȼs̎ȕ8gǇar˯·ou˔ndɛśǎȄthȄeɽ́ǊĞå˔ centra-ĶlČ˔ singularity like air in a tornado.|
 
@@ -143,10 +147,22 @@ plotted this for various corruption percentages
 |<img src="./img/Plots/LevenshteinDistanceBlack.png"> | <img src="./img/Plots/LevenshteinDistanceWhite.png"> | <img src="./img/Plots/LevenshteinDistanceRandom.png">|
 |<img src="./img/Plots/LevenshteinRatioBlack.png"> | <img src="./img/Plots/LevenshteinRatioWhite.png"> | <img src="./img/Plots/LevenshteinRatioRandom.png">|
 
-Below we see plots of both Levenshtein distance and ratio as a function of image corruption. We can see that the ratio
-starts to sharply descend as we near 40% image corruption, suggesting that images corrupted beyond this point may not be
-able to have text properly decoded via this neural net. The plot of Levenshtein distance also supports this tipping
-point. 
+We can see that the ratio starts to sharply descend as we near 20-25% image corruption for random pixels, suggesting
+that images corrupted beyond this point may not be able to have text decoded to an intelligible state via this neural net. The plot of
+Levenshtein distance also supports this tipping point.
 
+As I briefly mentioned earlier, corrupting entirely with white pixels leaves us far worse off than random or black
+pixels. This is because the entire image tends towards a constant color. Black is an exception to this rule because the
+neural net decodes black as a null character, which has no effect on our string because it is not displayed. With random
+pixels there is variety in the image, which allows for better decoding to take place.
 
-ȄȄȄȄȄĶĶȄȄĶȄzȄȄĶȄ˔ĶĶĶČĶȄȄČĶĶĶȄĶČĶĶ˔ȄĶČ˔Ȅ˔ĶČĶȄȄȄȄĶ˔ȄȄȄ˔ĶĶČĶȄĶČĶȄȄĶȄȄĶĶȄČ˔ĶĶȄĶĶĶĶȄĶȄĶ˔ĶĶȄĶȄ˔ĶȄȄȄĶȄČĶĶȄȄȄĶȄȄĶĶȄĶĶĶȄ˔Ķ˔ȄĶĶĶȄȄČȄĶȄȄĶĶȄĶĶĶĶĶČČȄȄȄ˔ČȄȄĶĶȄȄČȄȄȄĶȄĶȄĶȄȄČĶrȄĶĶ˔ĶČȄĶȄĶĶČĶČĶČȄĶĶ˔ȄȄȄȄĶȄȄČȄĶĶĶČĶȄ˔˔ČȄȄȄȄȄĶȄĶČȄrĶĶĶČĶ˔ĶȄȄĶĶȄȄȄĶȄČɖĶĶ,ĶĶĶĶ˔ȄȄ˔ȄȄĶĶȄĶ˔˭˔ȄȄČĶ˔ȄzĶĶȄȄĶĶȄČČȄĶȄĶČĶȄ˔ȄȄ`Ȅ˔űČ˔Ķ`ȶɽĶČȄĶĶȄ˔ȄĶĶČĶČ˔ČzzĶȄ`ɼĶȄȄȄ˔ȄȄňĶĶȄĶȄĶĶ˔Ȅ˔ĶĶ˔ȄĶĶȄĶĶzȄĶĶĶȄĶĶȄȄȄĶȄĶȄĶČȄrȄȄȄĶĶĶĶĶĶzȄȄĶȄȄĶz·ĶȄĶĶȄĶĶĶȄ˔Ķ˔Ķ˔ĶĶŋȄhĶȄĶ˔ȄȄĶȄČzĶȄȄɖĶƇĶŋȄĶČĶĶȄɼĶǇĶȄĶȄ˯ĶȄĶɖĶȄȄƢĶĶȄȄȄ`Ķ·ȄĶȄĶȄĶ`Ķ˔ȄĶĶĶĶĶĶȄĶČȄȄČȄ˔Ȅ`ĶȄ˔ȄĶĶĶĶ`ĶČĶĶȄĶĶĶĶĶȄČȄ˔,ȄČzĶ˔ȄĶĶɖČ˔ĶĶ˔ĶĶĶĶĶŋĶĶ˔·Ȅ˔ȶĶ˔ČˢŨ`eɖʩĶɶ˔Ķr¼˔ɖĶ˔ɖĶ¸ɖǊȄĶɶz˭Ķ`ĶȄȄƠ`ĶzȄĶɽĶȄČĶĶĶĶȄ˔ĶČȄȄČȄȄȄȄȄĶĶĶČČzĶnȄĶȄĶĶȄĶĶĶĶČȄ˔˔ȄĶĶĶĶČ˔ĶĶĶĶȄČĶȄȄĶfĶĶČȄĶȄĶȄȄrȄĶȄȄȄĶĶĶĶĶȄĶĶĶČ˔ĶĶȄČȄȄČȄĶĶȄȄĶȄȄĶĶȄȄȄĶĶȄĶĶĶȄĶȄĶȄĶĶȄĶȄĶȄĶĶĶȄĶȄĶĶȄȄĶĶĶĶȄĶȄȄȄȄȄȄȄȄĶȄĶĶȄĶȄĶȄȄȄrĶĶȄȄȄĶȄȄĶȄĶ˔ĶĶȄĶȄČĶĶȄȄČȄȄȄȄĶĶĶȄȄĶČȄȄĶȄȄȄȄȄĶĶĶČĶȄȄȄȄȄ˔ĶȄĶȄĶȄȄĶɖĶȄȄĶĶȄȄĶČȄȄȄȄȄȄȄ˔ČĶĶĶĶĶȄĶČĶĶĶrȄĶČĶĶČĶȄȄĶĶČĶȄȄȄĶȄȄȄĶȄĶȄĶČȄČȄȄ
+## Conclusions
+We are able to encode text into images and decode the text with 100% accuracy, provided the image has not been
+corrupted. This neural net serves as a public key encryptor. Anyone who gets their hands on these class definitions and
+the model weights is capable of both encrypting and decrypting the data.
+
+## Future Work
+Improvements that could be made:
+
+* Revise the neural net such that fixed sized inputs are not required.
+* Devise a way to make this a private key style encryptor/decryptor
