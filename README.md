@@ -35,8 +35,21 @@ The CNN is divided into two parts:
 
 ### Training the Network
 To train the network, we use randomly generated images and strings. This helps the network to be robust and work with
-a very wide variety of text and images.
+a very wide variety of text and images. Examples of random images and text can be seen below
 
 |             Random Image 1              |               Random Image 2             |
 |------------------------------|-----------------------------------------------------|
 |<img src="./img/Raw/Random1_NoAxes.png"> | <img src="./img/Raw/Random2_NoAxes.png"> |
+
+
+Note that some characters do not display very well within typical text editors or consoles.
+* Random Text 1: +|lIgtNF:'	uNT'tX1lB!Tah9]QV;=Xsfi6Cs#,_#.|#wSW (p"EpY&
+G#*L-!vhtj%P[k{O8v`
+
+
+* Random Text 2: pQ9u>q,zH u77">uTRT#)wFwvw|44&^AWb=&HU#r*ZZ5yWI{^/5.sU},hK2n.7Z
+,Q}<w527/&[\="6$&M
+  
+The general structure of the network is outlined in the following diagram:
+
+<img src="./img/Diagrams/NeuralNetStructure.png">
