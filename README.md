@@ -92,4 +92,15 @@ After feeding this pre-processed image and our chosen text, the network outputs 
 
 <img src="img/Embedded/twister.png">
 
+Those images look nearly identical to me. To put that into quantitative terms, the mean pixel difference is ~0.0071,
+nearly imperceptible.
 
+
+All that's left is to take this image with embedded text and attempt to pull the text from it. Feeding the previous
+image into the decoder segment of the network, we obtain the following text:
+
+"A black hole really is an object with very rich structure, just like Earth has a rich structure of mountains, valleys,
+oceans, and so forth. Its warped space whirls around the central singularity like air in a tornado."
+
+This is exactly the text we input into the network, demonstrating that we can effectively encode text into an image,
+nearly imperceptibly, and with extremely high accuracy decode the text from the image.
