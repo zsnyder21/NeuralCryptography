@@ -8,6 +8,11 @@
     + [Training the Network](#training-the-network)
   * [Results](#results)
   * [Image Corruption](#image-corruption)
+  * [Nitty Gritty Details](#nitty-gritty-details)
+    + [Technical Details](#technical-details)
+    + [Usage](#usage)
+      - [Training](#training)
+      - [Encryption, Corruption, and Decryption](#encryption-corruption-and-decryption)
   * [Conclusions](#conclusions)
   * [Future Work](#future-work)
 
@@ -47,7 +52,7 @@ The CNN is divided into two parts:
 
 ### Training the Network
 To train the network, we use randomly generated images and strings. This helps the network to be robust and work with
-a very wide variety of text and images. Examples of random images and text can be seen below
+a very wide variety of text and images. Examples of random images and text can be seen below:
 
 |             Random Image 1              |               Random Image 2             |
 |------------------------------|-----------------------------------------------------|
@@ -164,13 +169,183 @@ pixels. This is because the entire image tends towards a constant color. Black i
 neural net decodes black as a null character, which has no effect on our string because it is not displayed. With random
 pixels there is variety in the image, which allows for better decoding to take place.
 
+## Nitty Gritty Details
+
+### Technical Details
+The way that this neural network was created and trained, two things are required.
+1) The image size must be the size that the network was trained with. The network was trained with square images so the
+   network requires a square image.
+   
+
+2) The sentence length must be the size that the network was trained with. This is the same length as one side of the
+   square images we trained on.
+   
+To achieve the first item, we pre-process the images. If they are too large, they are naively cropped down to size: the
+first 2000 pixels in the x and y directions for example are chosen. If either dimension is too short, it is padded with
+the average pixel color of the image to bring it up to size.
+
+To achieve the second is a tad more complicated. There is a parameter used when training the model called
+dictionaryLength. This parameter indicated the number of unique characters that the model was trained with. In order to
+facilitate bringing the image up to size, the final 20% of these characters are reserved for peppering the input
+sentence when encrypting information. This has two effects:
+
+1) The sentence to be encrypted cannot contain any character from the final 20% of the dictionary. The CryptoNet class 
+   will throw an error if you try to do this.
+   
+
+2) Characters from the final 20% of the dictionary are randomly peppered within the sentence to be encrypted in order to
+   bring it up to length and then are removed from the output upon decryption.
+
+### Usage
+There are two things that you need to know using this code: how to train your network and how to use your network.
+
+####Training
+To train your network, the code below is all that is required:
+
+```python
+from ModelTrainer import ModelTrainer
+
+trainer = ModelTrainer(
+    modelSavePath="/path/to/save/weights/weights.h5",
+    imageSize=2000,
+    greyScale=False,
+    dictionaryLength=1000,
+    batchSize=4,
+    loadExistingModel=False
+)
+
+trainer.trainModels(
+    epochs=512,
+    stepsPerEpoch=64,
+    threshold=0.001
+)
+```
+
+The parameters passed into the ModelTrainer constructor are as follows:
+
+* modelSavePath: Path to save your model weights.
+
+
+* imageSize: Size of images to train on.
+
+
+* greyScale: Whether or not the images are grey scale or color.
+
+
+* dictionaryLength: The number of unique characters that can be present in sentences.
+
+
+* batchSize: How many images and sentences are generated per batch during training.
+
+
+* loadExistingModel: If you set this to true, it will attempt to load weights from modelSavePath and better train that
+  model. If improvements are made, they are saved on top of the original weights specified.
+  
+When calling the trainer's train method, we see that there are 3 additional parameters. These are
+
+* epochs: The number of epochs to train on.
+
+
+* stepsPerEpoch: The number of steps per epoch.
+
+
+* threshold: If the image reconstruction loss falls below this value, the model will stop training. This parameter
+  allows you to prevent overfitting the model. 
+
+The above code will train your model for 512 epochs with 64 steps per epoch, and stop if your image reconstruction loss
+falls below 0.001. We have 1000 unique characters that can be present within our sentences, images are 2000x2000x3, and
+sentences are of length 2000. Furthermore, we train with a batch size of 4 (for memory considerations on my GPU,
+otherwise larger is generally better), and we are training a fresh model and saving it to weights.h5.
+
+#### Encryption, Corruption, and Decryption
+To call the network and see it in action, we have a few steps to follow:
+
+First, we will initialize our network and (optionally) image corruptor if we want to play with corrupted images:
+
+```python
+from CryptoNet import CryptoNet
+from ImageCorruptor import ImageCorruptor
+
+cryptoNet = CryptoNet(weightsFilePath="/path/to/your/weights/weights.h5")
+corruptor = ImageCorruptor(greyScale=False, corruptValue=(0, 0, 0), useRandomColors=True)
+```
+
+`CryptoNet` takes a single parameter: weightsFilePath. This is the filepath to your network's weights.
+
+It is important to note that there is a separate file that should be parallel to your model weights (in the example
+above called weights.h5.p) that holds information regarding the image size and dictionary length that your model
+requries. 
+
+`ImageCorruptor` takes 3 parameters:
+* greyScale: Whether or not the images to be corrupted are grey scale or not.
+
+
+* corruptValue: A tuple indicating what value to fill the pixels we corrupt with. If our image is grey scale, only the
+  first value of this tuple is used. Furthermore, this parameter is ignored completely if useRandomColors is passed in
+  as `True`.
+
+
+* useRandomColors: A boolean flag indicating whether or not to use randomly generated pixel values when corrupting the
+  image.
+
+
+
+Next we can encrypt some data. Note that `cryptoNet.encrypt` does return numpy array representations of the
+pre-processed as well as the text-embedded image. The text is encrypted as follows:
+
+```python
+preProcessedImage, imageWithEmbeddedText = cryptoNet.encrypt(
+  imageFilePath="path/to/your/image/img.png",
+  sentence="Sentence to encrypt",
+  saveOutput=True,
+  preProcessedOutputPath="path/to/save/your/preprocessed/image/preprocessed.png",
+  embeddedOutputPath="path/to/save/your/embedded/image/embedded.png"
+)
+```
+
+At this point, we can optionally corrupt some of our data. Once again, `corruptor.corruptImage` returns a numpy array
+representation of our corrupted image
+
+```python
+corruptedImage = corruptor.corruptImage(
+  proportionToCorrupt=0.3,
+  imageFilePath="path/to/image/to/corrupt/img.png",
+  saveOutput=True,
+  outputFilePath="path/to/save/your/corrupt/image/corrupt.png"
+)
+```
+
+The parameters are relatively straightforward:
+
+* proportionToCorrupt: Proportion of pixels to corrupt in the image.
+
+
+* imageFilePath: Path to the image you wish to corrupt.
+
+
+* saveOutput: Whether or not to save the output.
+
+
+* outputFilePath: Where to save the output.
+
+
+At this point we have encoded (and potentially corrupted images). All that's left is to decode it! This is done as
+follows:
+
+```python
+decodedMessage = cryptoNet.decrypt(img="path/to/your/encrypted/image/encrypted.png")
+```
+
+`cryptoNet.decrypt` takes a single parameter: img. This is the file path to your image with embedded text, or
+alternatively, a numpy array representation of the image.
+
 ## Conclusions
 We are able to encode text into images and decode the text with 100% accuracy, provided the image has not been
 corrupted. This neural net serves as a public key encryptor. Anyone who gets their hands on these class definitions and
 the model weights is capable of both encrypting and decrypting the data.
 
 ## Future Work
-Improvements that could be made:
+Potential Improvements:
 
 * Revise the neural net such that fixed sized inputs are not required.
 * Devise a way to make this a private key style encryptor/decryptor
