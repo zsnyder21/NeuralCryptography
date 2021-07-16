@@ -76,3 +76,20 @@ oceans, and so forth. Its warped space whirls around the central singularity lik
 We will embed this quote within the following image:
 
 <img src="img/Raw/twister.png">
+
+A little bit of pre-processing is necessary to prepare the image for the network. This pre-processing simply ensures
+that the image has the dimensions that the neural network expects: (2000, 2000, 3). That is, a 2000x2000 RGB image.
+After pre-processing our image looks like this:
+
+<img src="img/PreProcessed/twister.png">
+
+The filler bar color is chosen to be the average color of the image, so as to not ruin the aesthetics. Note that if the
+image were larger, the image would be naively cropped down to size, taking the first 2000 pixels in the appropriate
+dimensions.
+
+
+After feeding this pre-processed image and our chosen text, the network outputs the following image:
+
+<img src="img/Embedded/twister.png">
+
+
