@@ -60,4 +60,4 @@ the 2nd epoch. Using a custom threshold Callback in the model, I stopped trainin
 
 Final model scores were as follows:
 
-* Sentence reconstruction loss: $`2.7585x10^{-4}`$
+* Sentence reconstruction loss: $2.7585x10^{-4}$
