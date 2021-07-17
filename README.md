@@ -186,7 +186,7 @@ the average pixel color of the image to bring it up to size.
 
 To achieve the second is a tad more complicated. There is a parameter used when training the model called
 dictionaryLength. This parameter indicated the number of unique characters that the model was trained with. In order to
-facilitate bringing the image up to size, the final 20% of these characters are reserved for peppering the input
+facilitate bringing the sentence up to size, the final 20% of these characters are reserved for peppering the input
 sentence when encrypting information. This has two effects:
 
 1) The sentence to be encrypted cannot contain any character from the final 20% of the dictionary. The CryptoNet class 
